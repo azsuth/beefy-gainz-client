@@ -1,33 +1,33 @@
 import axios from 'axios';
 
 export const getExercises = async () => {
-    const response = await axios.get('/api/exercises');
+    const response = await axios.get('/exercises');
     return response.data;
 };
 
 export const createExercise = async (exercise) => {
     if (exercise.id) {
-        throw 'Cannot create an exercise that has an ID';
+        throw Error('Cannot create an exercise that has an ID');
     }
 
-    const response = await axios.post('/api/exercises', exercise);
+    const response = await axios.post('/exercises', exercise);
     return response.data;
 };
 
 export const updateExercise = async (exercise) => {
     if (!exercise.id) {
-        throw 'Cannot update an exercise that does not have an ID';
+        throw Error('Cannot update an exercise that does not have an ID');
     }
 
-    const response = await axios.put(`/api/exercises/${exercise.id}`, exercise);
+    const response = await axios.put(`/exercises/${exercise.id}`, exercise);
     return response.data;
 };
 
 export const deleteExercise = async (exercise) => {
     if (!exercise.id) {
-        throw 'Cannot delete an exercise that does not have an ID';
+        throw Error('Cannot delete an exercise that does not have an ID');
     }
 
-    const response = await axios.delete(`/api/exercises/${exercise.id}`);
+    await axios.delete(`/exercises/${exercise.id}`);
     return 'Success';
 };

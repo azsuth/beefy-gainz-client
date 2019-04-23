@@ -1,58 +1,58 @@
 import React, { Component } from 'react';
-import './App.css';
 import { GoogleLogin } from 'react-google-login';
-import axios from 'axios';
+
+import { setIdToken } from './service/api/apiConfig';
+import { getExercises, createExercise } from './service/api/exercise';
+
+import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      loggedIn: false,
-      idToken: null
+        this.state = {
+            loggedIn: false,
+            idToken: null
+        }
+
+        this.onSuccess = this.onSuccess.bind(this);
     }
 
-    this.onSuccess = this.onSuccess.bind(this);
-  }
+    onSuccess(response) {
+        setIdToken(response.tokenId);
 
-  onSuccess(response) {
-    this.setState({
-      loggedIn: true,
-      idToken: response.tokenId
-    });
+        createExercise({ name: 'Bench Press' })
+            .then(() => {
+                getExercises()
+                    .then(exercises => {
+                        console.log(exercises);
+                    })
+                    .catch(error => {
+                        console.log('Error getting exercises', error);
+                    });
+            })
+            .catch(error => {
+                console.log('Error creating exercise', error);
+            });
+    }
 
-    const options = {
-      method: 'get',
-      headers: { 'idToken': this.state.idToken },
-      url: 'http://localhost:3001/api/exercises'
-    };
+    onFailure(response) {
+        console.log(response);
+    }
 
-    axios(options)
-      .then(res => {
-        console.log('Success!!!', res);
-      })
-      .catch(err => {
-        console.log('Error!!!', err);
-      });
-  }
-
-  onFailure(response) {
-    console.log(response);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <GoogleLogin
-            clientId="54851119520-ioolc277euiajnnqt3vdo2r9r8sqse9g.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={this.onSuccess}
-            onFailure={this.onFailure}
-            cookiePolicy={'single_host_origin'}
-          />
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="App">
+                <GoogleLogin
+                    clientId="54851119520-ioolc277euiajnnqt3vdo2r9r8sqse9g.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={this.onSuccess}
+                    onFailure={this.onFailure}
+                    cookiePolicy={'single_host_origin'}
+                />
+            </div>
+        );
+    }
 }
 
 export default App;

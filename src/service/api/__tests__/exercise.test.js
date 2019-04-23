@@ -8,7 +8,7 @@ describe('the exercise api', () => {
         expect(getExercises).toBeDefined();
     });
 
-    describe('the getExercises function', () => {
+    describe('getExercises function', () => {
         beforeEach(() => {
             axios.get.mockReset();
         });
@@ -21,7 +21,7 @@ describe('the exercise api', () => {
             getExercises();
 
             expect(axios.get).toHaveBeenCalledTimes(1);
-            expect(axios.get).toHaveBeenCalledWith('/api/exercises');
+            expect(axios.get).toHaveBeenCalledWith('/exercises');
         });
 
         it('should return the data, not the response object', async () => {
@@ -55,7 +55,7 @@ describe('the exercise api', () => {
         expect(createExercise).toBeDefined();
     });
 
-    describe('the createExercise function', () => {
+    describe('createExercise function', () => {
         beforeEach(() => {
             axios.post.mockReset();
         });
@@ -70,7 +70,7 @@ describe('the exercise api', () => {
             createExercise(exercise);
 
             expect(axios.post).toHaveBeenCalledTimes(1);
-            expect(axios.post).toHaveBeenCalledWith('/api/exercises', exercise);
+            expect(axios.post).toHaveBeenCalledWith('/exercises', exercise);
         });
 
         it('should return the data, not the response object', async () => {
@@ -97,7 +97,7 @@ describe('the exercise api', () => {
             try {
                 await createExercise({ id: 1 });
             } catch (error) {
-                expect(error).toBe('Cannot create an exercise that has an ID');
+                expect(error.message).toBe('Cannot create an exercise that has an ID');
             }
         });
     });
@@ -106,7 +106,7 @@ describe('the exercise api', () => {
         expect(updateExercise).toBeDefined();
     });
 
-    describe('the updateExercise function', () => {
+    describe('updateExercise function', () => {
         beforeEach(() => {
             axios.put.mockReset();
         });
@@ -121,7 +121,7 @@ describe('the exercise api', () => {
             updateExercise(exercise);
 
             expect(axios.put).toHaveBeenCalledTimes(1);
-            expect(axios.put).toHaveBeenCalledWith('/api/exercises/1', exercise);
+            expect(axios.put).toHaveBeenCalledWith('/exercises/1', exercise);
         });
 
         it('should return the data, not the response object', async () => {
@@ -148,7 +148,7 @@ describe('the exercise api', () => {
             try {
                 await updateExercise({ name: 'Bench Press' });
             } catch (error) {
-                expect(error).toBe('Cannot update an exercise that does not have an ID');
+                expect(error.message).toBe('Cannot update an exercise that does not have an ID');
             }
         })
     });
@@ -157,7 +157,7 @@ describe('the exercise api', () => {
         expect(deleteExercise).toBeDefined();
     });
 
-    describe('the deleteExercise function', () => {
+    describe('deleteExercise function', () => {
         beforeEach(() => {
             axios.delete.mockReset();
         });
@@ -172,7 +172,7 @@ describe('the exercise api', () => {
             deleteExercise(exercise);
 
             expect(axios.delete).toHaveBeenCalledTimes(1);
-            expect(axios.delete).toHaveBeenCalledWith('/api/exercises/1');
+            expect(axios.delete).toHaveBeenCalledWith('/exercises/1');
         });
 
         it('should return success', async () => {
@@ -198,7 +198,7 @@ describe('the exercise api', () => {
             try {
                 await deleteExercise({ name: 'Bench Press' });
             } catch (error) {
-                expect(error).toBe('Cannot delete an exercise that does not have an ID');
+                expect(error.message).toBe('Cannot delete an exercise that does not have an ID');
             }
         })
     });
