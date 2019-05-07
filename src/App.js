@@ -43,6 +43,8 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <button className="ui button">This is a semantic button</button>
+
                 <GoogleLogin
                     clientId="54851119520-ioolc277euiajnnqt3vdo2r9r8sqse9g.apps.googleusercontent.com"
                     buttonText="Login"
