@@ -1,9 +1,16 @@
 FROM node:alpine
+
+RUN npm i -g gulp
+
 WORKDIR /app
+
 COPY ./package.json ./
 COPY ./semantic.json ./
 COPY ./public/semantic ./public/semantic
+
 RUN npm install
-RUN npm run buildSemantic
+RUN cd public/semantic && gulp build
+
 COPY . .
+
 CMD ["npm", "run", "start"]
