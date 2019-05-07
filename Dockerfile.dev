@@ -1,6 +1,9 @@
 FROM node:alpine
 WORKDIR /app
 COPY ./package.json ./
+COPY ./semantic.json ./
+COPY ./public/semantic ./public/semantic
 RUN npm install
+RUN npm run buildSemantic
 COPY . .
 CMD ["npm", "run", "start"]
