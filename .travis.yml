@@ -20,8 +20,8 @@ before_script:
 
 script:
   - cd public/semantic && gulp build && cd ../..
-  - npm test
   - npm run build
+  - npm test
 
 after_success:
   - docker image build -t $DOCKER_USERNAME/$DOCKER_IMAGE:latest -t $DOCKER_USERNAME/$DOCKER_IMAGE:$SHA .
