@@ -1,5 +1,53 @@
 .Exercise {
   height: 100%;
-  position: relative;
-  padding: 1rem;
+  padding: 2rem;
+
+  &__search {
+    margin-bottom: 2rem;
+  }
+
+  .Exercise-content {
+    position: relative;
+
+    &__editable-exercises {
+      &-blur {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        opacity: 0;
+        display: none;
+
+        &--in {
+          display: block;
+          animation: fadeIn 0.15s;
+          animation-fill-mode: forwards;
+        }
+      }
+    }
+
+    &__search-results {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+
+      &--searching {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.9;
+  }
 }

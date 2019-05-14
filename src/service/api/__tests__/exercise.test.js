@@ -2,7 +2,7 @@ jest.mock('axios');
 
 import axios from 'axios';
 import {
-  getExercisesService,
+  getCurrentExercisesService,
   createExercise,
   updateExercise,
   deleteExercise
@@ -10,20 +10,20 @@ import {
 
 describe('the exercise api', () => {
   it('should have a function for getting all exercises', () => {
-    expect(getExercisesService).toBeDefined();
+    expect(getCurrentExercisesService).toBeDefined();
   });
 
-  describe('getExercisesService function', () => {
+  describe('getCurrentExercisesService function', () => {
     beforeEach(() => {
       axios.get.mockReset();
     });
 
     it('should return a promise', () => {
-      expect(getExercisesService().then).toBeDefined();
+      expect(getCurrentExercisesService().then).toBeDefined();
     });
 
     it('should make a get call with axios', () => {
-      getExercisesService();
+      getCurrentExercisesService();
 
       expect(axios.get).toHaveBeenCalledTimes(1);
       expect(axios.get).toHaveBeenCalledWith('/exercises');
@@ -41,7 +41,7 @@ describe('the exercise api', () => {
         ]
       });
 
-      const exercises = await getExercisesService();
+      const exercises = await getCurrentExercisesService();
       expect(exercises.length).toBe(2);
       expect(exercises[0].name).toBe('Bench Press');
       expect(exercises[1].name).toBe('Squats');
@@ -52,7 +52,7 @@ describe('the exercise api', () => {
 
       expect.assertions(1);
       try {
-        await getExercisesService();
+        await getCurrentExercisesService();
       } catch (error) {
         expect(error).toBe('Error!');
       }

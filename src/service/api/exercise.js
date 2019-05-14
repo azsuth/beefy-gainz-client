@@ -1,9 +1,14 @@
 import axios from 'axios';
 
-export const getExercisesService = async () => {
-    const response = await axios.get('/exercises');
+export const getCurrentExercisesService = async () => {
+    const response = await axios.get('/exercises?current=true');
     return response.data;
 };
+
+export const searchExercisesService = async searchTerm => {
+    const response = await axios.get(`/exercises?search=${searchTerm}`);
+    return response.data;
+}
 
 export const createExercise = async (exercise) => {
     if (exercise.id) {

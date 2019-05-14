@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import "component/Exercise/style/EditableSet.scss";
+import 'component/Exercise/style/EditableSet.scss';
 
 const EditableSet = ({ set }) => {
   return (

@@ -1,0 +1,13 @@
+.Exercise-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__label {
+    margin-right: 2rem;
+  }
+
+  &__input {
+    margin-right: 2rem;
+  }
+}
