@@ -26,7 +26,7 @@ describe('the exercise api', () => {
       getCurrentExercisesService();
 
       expect(axios.get).toHaveBeenCalledTimes(1);
-      expect(axios.get).toHaveBeenCalledWith('/exercises');
+      expect(axios.get).toHaveBeenCalledWith('/exercises?current=true');
     });
 
     it('should return the data, not the response object', async () => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import ExerciseSearch from 'component/Exercise/ExerciseSearch';
 import EditableExercise from 'component/Exercise/EditableExercise';
+import ExerciseSearchResult from 'component/Exercise/ExerciseSearchResult';
 
 import 'component/Exercise/style/Exercise.scss';
 
@@ -9,11 +10,17 @@ class Exercise extends Component {
   renderExercises() {
     const { exercises } = this.props;
 
-    if (exercises) {
-      return exercises.map(exercise => (
-        <EditableExercise key={exercise.id} exercise={exercise} />
-      ));
-    }
+    return exercises.map(exercise => (
+      <EditableExercise key={exercise.id} exercise={exercise} />
+    ));
+  }
+
+  renderSearchResults() {
+    const { searchExercises } = this.props;
+
+    return searchExercises.map(exercise => (
+      <ExerciseSearchResult key={exercise.id} exercise={exercise} />
+    ));
   }
 
   classes() {
@@ -64,7 +71,7 @@ class Exercise extends Component {
 
             <div className={exerciseBlurClass} />
           </div>
-          <div className={searchResultsClass} />
+          <div className={searchResultsClass}>{this.renderSearchResults()}</div>
         </div>
       </div>
     );

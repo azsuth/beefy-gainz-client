@@ -1,4 +1,6 @@
 import { getCurrentExercisesService } from 'service/api/exercise';
+import Exercise from 'model/Exercise';
+
 import {
   NEW_EXERCISES,
   EXERCISE_FOCUSSED,
@@ -22,7 +24,7 @@ export const exerciseChangedFocus = focussed => ({
   payload: focussed
 });
 
-export const exerciseNameChanged = exercise => dispatch => {
+export const exerciseNameChanged = exercise => (dispatch, getState) => {
   dispatch({
     type: EXERCISE_NAME_CHANGED,
     payload: exercise
@@ -33,18 +35,21 @@ export const exerciseNameChanged = exercise => dispatch => {
   }
 
   let exercises = [];
+  getState().Exercise.exercises.forEach(exercise => {
+    exercises.push(exercise);
+  });
 
-  setTimeout(() => {
-    exercises.push({
+  // setTimeout(() => {
+    exercises.push(new Exercise({
       id: NEW_EXERCISE_ID,
       name: exercise
-    });
+    }));
 
     dispatch({
       type: NEW_SEARCH_EXERCISES,
       payload: exercises
     });
-  }, 1500);
+  // }, 500);
 };
 
 export const cancelExerciseSearch = () => ({

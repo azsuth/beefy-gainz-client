@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+import Exercise from 'model/Exercise';
+
 export const getCurrentExercisesService = async () => {
     const response = await axios.get('/exercises?current=true');
-    return response.data;
+    return response.data.map(exercise => new Exercise(exercise));
 };
 
 export const searchExercisesService = async searchTerm => {

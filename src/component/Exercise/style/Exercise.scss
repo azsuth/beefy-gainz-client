@@ -34,6 +34,14 @@
       left: 0;
       display: none;
 
+      .Exercise-search-result {
+        margin-bottom: 2rem;
+
+        &:first-child {
+          margin-top: 2rem;
+        }
+      }
+
       &--searching {
         display: flex;
         flex-direction: column;

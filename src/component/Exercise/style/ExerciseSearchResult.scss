@@ -1,0 +1,18 @@
+.Exercise-search-result {
+  display: flex;
+
+  &__add-button {
+    align-self: flex-start;
+    margin: 0 2rem 0 4rem;
+  }
+
+  &-description {
+    &__name {
+      display: block;
+    }
+
+    &__info {
+      display: block;
+    }
+  }
+}

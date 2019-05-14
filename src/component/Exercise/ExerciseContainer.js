@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 
 import Exercise from 'component/Exercise/Exercise';
 
-import { getExercises, exerciseChangedFocus, exerciseNameChanged, cancelExerciseSearch } from 'action/Exercise';
+import {
+  getExercises,
+  exerciseChangedFocus,
+  exerciseNameChanged,
+  cancelExerciseSearch
+} from 'action/Exercise';
 
 class ExerciseContainer extends Component {
   constructor(props) {
@@ -32,7 +37,13 @@ class ExerciseContainer extends Component {
 
   render() {
     const { onExerciseFocus, onExerciseBlur, onExerciseNameChange } = this;
-    const { exercises, searching, exerciseName, cancelExerciseSearch } = this.props;
+    const {
+      exercises,
+      searching,
+      exerciseName,
+      cancelExerciseSearch,
+      searchExercises
+    } = this.props;
 
     return (
       <Exercise
@@ -43,7 +54,8 @@ class ExerciseContainer extends Component {
           onExerciseFocus,
           onExerciseBlur,
           onExerciseNameChange,
-          cancelExerciseSearch
+          cancelExerciseSearch,
+          searchExercises
         }}
       />
     );
@@ -53,10 +65,16 @@ class ExerciseContainer extends Component {
 const mapStateToProps = ({ Exercise }) => ({
   exercises: Exercise.exercises,
   searching: Exercise.exerciseFocussed || Exercise.exerciseName.length > 0,
-  exerciseName: Exercise.exerciseName
+  exerciseName: Exercise.exerciseName,
+  searchExercises: Exercise.searchExercises
 });
 
 export default connect(
   mapStateToProps,
-  { getExercises, exerciseChangedFocus, exerciseNameChanged, cancelExerciseSearch }
+  {
+    getExercises,
+    exerciseChangedFocus,
+    exerciseNameChanged,
+    cancelExerciseSearch
+  }
 )(ExerciseContainer);
