@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getExercises = async () => {
+export const getExercisesService = async () => {
     const response = await axios.get('/exercises');
     return response.data;
 };

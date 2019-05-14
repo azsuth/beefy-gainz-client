@@ -1,0 +1,49 @@
+.Login {
+  height: 100%;
+  position: relative;
+
+  &__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &--animate-up {
+      animation: animateUp 0.75s ease-out;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &__button {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -400%);
+    opacity: 0;
+
+    &--fade-in {
+      animation: fadeIn 0.75s ease-out;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+@keyframes animateUp {
+  80% {
+    transform: translate(-50%, -38vh);
+  }
+
+  100% {
+    transform: translate(-50%, -36vh);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

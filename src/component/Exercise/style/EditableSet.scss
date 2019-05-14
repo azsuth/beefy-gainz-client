@@ -1,0 +1,11 @@
+.EditableSet {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  &__actions {
+    & :first-child {
+      margin-right: 1rem;
+    }
+  }
+}
