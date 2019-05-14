@@ -133,7 +133,6 @@ class GoogleLogin extends Component {
 
     const initialStyle = {
       backgroundColor: theme === 'dark' ? 'rgb(66, 133, 244)' : '#fff',
-      display: 'inline-flex',
       alignItems: 'center',
       color: theme === 'dark' ? '#fff' : 'rgba(0, 0, 0, .54)',
       boxShadow: '0 2px 2px 0 rgba(0, 0, 0, .24), 0 0 1px 0 rgba(0, 0, 0, .24)',

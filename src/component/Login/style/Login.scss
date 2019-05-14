@@ -19,9 +19,11 @@
     top: 100%;
     left: 50%;
     transform: translate(-50%, -400%);
-    opacity: 0;
+    display: none;
 
     &--fade-in {
+      display: inline-flex;
+      opacity: 0;
       animation: fadeIn 0.75s ease-out;
       animation-fill-mode: forwards;
     }
