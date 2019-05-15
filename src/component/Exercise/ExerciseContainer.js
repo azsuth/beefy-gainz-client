@@ -7,7 +7,8 @@ import {
   getExercises,
   exerciseChangedFocus,
   exerciseNameChanged,
-  cancelExerciseSearch
+  cancelExerciseSearch,
+  logNewExercise
 } from 'action/Exercise';
 
 class ExerciseContainer extends Component {
@@ -17,6 +18,7 @@ class ExerciseContainer extends Component {
     this.onExerciseBlur = this.onExerciseBlur.bind(this);
     this.onExerciseFocus = this.onExerciseFocus.bind(this);
     this.onExerciseNameChange = this.onExerciseNameChange.bind(this);
+    this.onLogNewExercise = this.onLogNewExercise.bind(this);
   }
 
   componentDidMount() {
@@ -35,14 +37,19 @@ class ExerciseContainer extends Component {
     this.props.exerciseNameChanged(event.target.value);
   }
 
+  onLogNewExercise(exercise) {
+    this.props.logNewExercise(exercise);
+  }
+
   render() {
-    const { onExerciseFocus, onExerciseBlur, onExerciseNameChange } = this;
+    const { onExerciseFocus, onExerciseBlur, onExerciseNameChange, onLogNewExercise } = this;
     const {
       exercises,
       searching,
       exerciseName,
       cancelExerciseSearch,
-      searchExercises
+      searchExercises,
+      loadingSearchResults
     } = this.props;
 
     return (
@@ -55,7 +62,9 @@ class ExerciseContainer extends Component {
           onExerciseBlur,
           onExerciseNameChange,
           cancelExerciseSearch,
-          searchExercises
+          searchExercises,
+          loadingSearchResults,
+          onLogNewExercise
         }}
       />
     );
@@ -66,7 +75,8 @@ const mapStateToProps = ({ Exercise }) => ({
   exercises: Exercise.exercises,
   searching: Exercise.exerciseFocussed || Exercise.exerciseName.length > 0,
   exerciseName: Exercise.exerciseName,
-  searchExercises: Exercise.searchExercises
+  searchExercises: Exercise.searchExercises,
+  loadingSearchResults: Exercise.loadingSearchResults
 });
 
 export default connect(
@@ -75,6 +85,7 @@ export default connect(
     getExercises,
     exerciseChangedFocus,
     exerciseNameChanged,
-    cancelExerciseSearch
+    cancelExerciseSearch,
+    logNewExercise
   }
 )(ExerciseContainer);

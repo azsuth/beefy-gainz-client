@@ -2,11 +2,10 @@ import React from 'react';
 
 import 'component/Exercise/style/ExerciseSearchResult.scss';
 
-const ExerciseSearchResult = ({ exercise }) => (
+const ExerciseSearchResult = ({ exercise, onLogNewExercise }) => (
   <div className="Exercise-search-result">
-
     <div className="Exercise-search-result__add-button">
-      <button className="ui basic circular icon button">
+      <button className="ui basic circular icon button" onClick={() => onLogNewExercise(exercise)}>
         <i className="add icon" />
       </button>
     </div>
@@ -19,7 +18,6 @@ const ExerciseSearchResult = ({ exercise }) => (
         {exercise.searchResultDescription()}
       </span>
     </div>
-    
   </div>
 );
 

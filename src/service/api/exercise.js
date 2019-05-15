@@ -9,16 +9,16 @@ export const getCurrentExercisesService = async () => {
 
 export const searchExercisesService = async searchTerm => {
     const response = await axios.get(`/exercises?search=${searchTerm}`);
-    return response.data;
+    return response.data.map(exercise => new Exercise(exercise));
 }
 
-export const createExercise = async (exercise) => {
+export const createExerciseService = async (exercise) => {
     if (exercise.id) {
         throw Error('Cannot create an exercise that has an ID');
     }
 
     const response = await axios.post('/exercises', exercise);
-    return response.data;
+    return new Exercise(response.data);
 };
 
 export const updateExercise = async (exercise) => {

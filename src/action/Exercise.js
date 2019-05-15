@@ -1,4 +1,8 @@
-import { getCurrentExercisesService } from 'service/api/exercise';
+import {
+  getCurrentExercisesService,
+  searchExercisesService,
+  createExerciseService
+} from 'service/api/exercise';
 import Exercise from 'model/Exercise';
 
 import {
@@ -7,11 +11,23 @@ import {
   EXERCISE_NAME_CHANGED,
   NEW_EXERCISE_ID,
   NEW_SEARCH_EXERCISES,
-  CANCEL_EXERCISE_SEARCH
+  CANCEL_EXERCISE_SEARCH,
+  LOADING_SEARCH_RESULTS,
+  CLEAR_SEARCH_RESULTS,
+  LOADING_EXERCISES
 } from 'constants/index';
 
 export const getExercises = () => dispatch => {
+  dispatch({
+    type: LOADING_EXERCISES,
+    payload: true
+  });
+
   getCurrentExercisesService().then(exercises => {
+    dispatch({
+      type: LOADING_EXERCISES,
+      payload: false
+    });
     dispatch({
       type: NEW_EXERCISES,
       payload: exercises
@@ -24,34 +40,67 @@ export const exerciseChangedFocus = focussed => ({
   payload: focussed
 });
 
-export const exerciseNameChanged = exercise => (dispatch, getState) => {
+export const exerciseNameChanged = exercise => dispatch => {
   dispatch({
     type: EXERCISE_NAME_CHANGED,
     payload: exercise
   });
 
   if (exercise.length < 3) {
+    dispatch({
+      type: CLEAR_SEARCH_RESULTS
+    });
+
     return;
   }
 
-  let exercises = [];
-  getState().Exercise.exercises.forEach(exercise => {
-    exercises.push(exercise);
+  dispatch({
+    type: LOADING_SEARCH_RESULTS,
+    payload: true
   });
 
-  // setTimeout(() => {
-    exercises.push(new Exercise({
-      id: NEW_EXERCISE_ID,
-      name: exercise
-    }));
+  searchExercisesService(exercise).then(exercises => {
+    dispatch({
+      type: LOADING_SEARCH_RESULTS,
+      payload: false
+    });
+
+    exercises.push(
+      new Exercise({
+        id: NEW_EXERCISE_ID,
+        name: exercise
+      })
+    );
 
     dispatch({
       type: NEW_SEARCH_EXERCISES,
       payload: exercises
     });
-  // }, 500);
+  });
 };
 
 export const cancelExerciseSearch = () => ({
   type: CANCEL_EXERCISE_SEARCH
 });
+
+export const logNewExercise = exercise => dispatch => {
+  if (exercise.id === NEW_EXERCISE_ID) {
+    dispatch(createNewExercise(exercise));
+  } else {
+    dispatch(logNewSetForExercise(exercise));
+  }
+};
+
+export const createNewExercise = exercise => dispatch => {
+  dispatch({
+    type: LOADING_EXERCISES,
+    payload: true
+  });
+  dispatch(cancelExerciseSearch());
+
+  createExerciseService({ name: exercise.name }).then(() => {
+    dispatch(getExercises());
+  });
+};
+
+export const logNewSetForExercise = exercise => dispatch => {};

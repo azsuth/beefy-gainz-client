@@ -16,10 +16,10 @@ class Exercise extends Component {
   }
 
   renderSearchResults() {
-    const { searchExercises } = this.props;
+    const { searchExercises, onLogNewExercise } = this.props;
 
     return searchExercises.map(exercise => (
-      <ExerciseSearchResult key={exercise.id} exercise={exercise} />
+      <ExerciseSearchResult key={exercise.id} exercise={exercise} onLogNewExercise={onLogNewExercise} />
     ));
   }
 
@@ -48,7 +48,8 @@ class Exercise extends Component {
       onExerciseFocus,
       onExerciseBlur,
       onExerciseNameChange,
-      cancelExerciseSearch
+      cancelExerciseSearch,
+      loadingSearchResults
     } = this.props;
 
     return (
@@ -60,7 +61,8 @@ class Exercise extends Component {
               onExerciseFocus,
               onExerciseBlur,
               onExerciseNameChange,
-              cancelExerciseSearch
+              cancelExerciseSearch,
+              loadingSearchResults
             }}
           />
         </div>

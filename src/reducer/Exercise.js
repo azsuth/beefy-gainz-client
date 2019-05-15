@@ -3,14 +3,19 @@ import {
   EXERCISE_FOCUSSED,
   EXERCISE_NAME_CHANGED,
   NEW_SEARCH_EXERCISES,
-  CANCEL_EXERCISE_SEARCH
+  CANCEL_EXERCISE_SEARCH,
+  LOADING_SEARCH_RESULTS,
+  CLEAR_SEARCH_RESULTS,
+  LOADING_EXERCISES
 } from 'constants/index';
 
 const INITIAL_STATE = {
   exercises: [],
   exerciseFocussed: false,
   exerciseName: '',
-  searchExercises: []
+  searchExercises: [],
+  loadingSearchResults: false,
+  loadingExercises: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,6 +35,15 @@ export default (state = INITIAL_STATE, action) => {
         exerciseName: '',
         searchExercises: []
       };
+    case LOADING_SEARCH_RESULTS:
+      return {
+        ...state,
+        loadingSearchResults: action.payload
+      };
+    case CLEAR_SEARCH_RESULTS:
+      return { ...state, searchExercises: [] };
+    case LOADING_EXERCISES:
+      return { ...state, loadingExercises: action.payload };
     default:
       return state;
   }
