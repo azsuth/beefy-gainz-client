@@ -14,7 +14,7 @@ describe('the apiConfig', () => {
     });
 
     it('should set the base URL to a default URL', () => {
-        expect(axios.defaults.baseURL).toBe('http://localhost:3001/api');
+        expect(axios.defaults.baseURL).toBe('/api');
     });
 
     it('should set the content-type header for POST and PUT requests', () => {
