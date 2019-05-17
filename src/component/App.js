@@ -11,6 +11,7 @@ import "component/style/App.css";
 
 class App extends Component {
   renderLoggedInRoutes() {
+    console.log('andrew', process.env.REACT_APP_SKIP_LOGIN, process.env);
     if (this.props.loggedIn || process.env.REACT_APP_SKIP_LOGIN) {
       return <Route path="/exercises" component={ExerciseContainer} />;
     }
