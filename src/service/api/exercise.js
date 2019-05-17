@@ -21,7 +21,7 @@ export const createExerciseService = async (exercise) => {
     return new Exercise(response.data);
 };
 
-export const updateExercise = async (exercise) => {
+export const updateExerciseService = async (exercise) => {
     if (!exercise.id) {
         throw Error('Cannot update an exercise that does not have an ID');
     }

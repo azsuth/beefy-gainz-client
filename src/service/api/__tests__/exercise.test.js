@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
   getCurrentExercisesService,
   createExerciseService,
-  updateExercise,
+  updateExerciseService,
   deleteExercise
 } from '../exercise';
 
@@ -110,23 +110,23 @@ describe('the exercise api', () => {
     });
   });
 
-  it('should have a function to updateExercise an exercise', () => {
-    expect(updateExercise).toBeDefined();
+  it('should have a function to updateExerciseService an exercise', () => {
+    expect(updateExerciseService).toBeDefined();
   });
 
-  describe('updateExercise function', () => {
+  describe('updateExerciseService function', () => {
     beforeEach(() => {
       axios.put.mockReset();
     });
 
     it('should return a promise', () => {
-      expect(updateExercise().then).toBeDefined();
+      expect(updateExerciseService().then).toBeDefined();
     });
 
     it('should make a put call with axios', () => {
       const exercise = { id: 1, name: 'Bench Press' };
 
-      updateExercise(exercise);
+      updateExerciseService(exercise);
 
       expect(axios.put).toHaveBeenCalledTimes(1);
       expect(axios.put).toHaveBeenCalledWith('/exercises/1', exercise);
@@ -135,7 +135,7 @@ describe('the exercise api', () => {
     it('should return the data, not the response object', async () => {
       axios.put.mockResolvedValue({ data: { id: 1, name: 'Bench Press' } });
 
-      const exercise = await updateExercise({ id: 1, name: 'Bench Press' });
+      const exercise = await updateExerciseService({ id: 1, name: 'Bench Press' });
       expect(exercise.id).toBe(1);
       expect(exercise.name).toBe('Bench Press');
     });
@@ -145,7 +145,7 @@ describe('the exercise api', () => {
 
       expect.assertions(1);
       try {
-        await updateExercise({ id: 1, name: 'Bench Press' });
+        await updateExerciseService({ id: 1, name: 'Bench Press' });
       } catch (error) {
         expect(error).toBe('Error!');
       }
@@ -154,7 +154,7 @@ describe('the exercise api', () => {
     it('should throw an error if exercise does not have ID', async () => {
       expect.assertions(1);
       try {
-        await updateExercise({ name: 'Bench Press' });
+        await updateExerciseService({ name: 'Bench Press' });
       } catch (error) {
         expect(error.message).toBe(
           'Cannot update an exercise that does not have an ID'

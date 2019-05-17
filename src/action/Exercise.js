@@ -1,7 +1,8 @@
 import {
   getCurrentExercisesService,
   searchExercisesService,
-  createExerciseService
+  createExerciseService,
+  updateExerciseService
 } from 'service/api/exercise';
 import Exercise from 'model/Exercise';
 
@@ -99,6 +100,17 @@ export const createNewExercise = exercise => dispatch => {
   dispatch(cancelExerciseSearch());
 
   createExerciseService({ name: exercise.name }).then(() => {
+    dispatch(getExercises());
+  });
+};
+
+export const updateExercise = exercise => dispatch => {
+  dispatch({
+    type: LOADING_EXERCISES,
+    payload: true
+  });
+
+  updateExerciseService(exercise.exercise).then(() => {
     dispatch(getExercises());
   });
 };
