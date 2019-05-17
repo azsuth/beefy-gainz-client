@@ -15,17 +15,14 @@ class LoginContainer extends Component {
   }
 
   onLoginSuccess(response) {
-    console.log('onLoginSuccess', response);
     this.props.loggedIn(response, this.props.history);
   }
 
   onLoginFailure(err) {
-    console.log('onLoginFailure', err);
     this.props.loginFailure(err);
   }
 
   onNotLoggedIn() {
-    console.log('onNotLoggedIn');
     this.props.notLoggedIn();
   }
 
