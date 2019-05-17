@@ -3,7 +3,7 @@ jest.mock('axios');
 import axios from 'axios';
 import {
   getCurrentExercisesService,
-  createExercise,
+  createExerciseService,
   updateExercise,
   deleteExercise
 } from '../exercise';
@@ -60,22 +60,22 @@ describe('the exercise api', () => {
   });
 
   it('should have a function for creating an exercise', () => {
-    expect(createExercise).toBeDefined();
+    expect(createExerciseService).toBeDefined();
   });
 
-  describe('createExercise function', () => {
+  describe('createExerciseService function', () => {
     beforeEach(() => {
       axios.post.mockReset();
     });
 
     it('should return a promise', () => {
-      expect(createExercise().then).toBeDefined();
+      expect(createExerciseService().then).toBeDefined();
     });
 
     it('should make a post call with axios', () => {
       const exercise = { name: 'Bench Press' };
 
-      createExercise(exercise);
+      createExerciseService(exercise);
 
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(axios.post).toHaveBeenCalledWith('/exercises', exercise);
@@ -84,7 +84,7 @@ describe('the exercise api', () => {
     it('should return the data, not the response object', async () => {
       axios.post.mockResolvedValue({ data: { id: 1, name: 'Bench Press' } });
 
-      const exercise = await createExercise({ name: 'Bench Press' });
+      const exercise = await createExerciseService({ name: 'Bench Press' });
       expect(exercise.id).toBe(1);
       expect(exercise.name).toBe('Bench Press');
     });
@@ -94,7 +94,7 @@ describe('the exercise api', () => {
 
       expect.assertions(1);
       try {
-        await createExercise({ name: 'Bench Press' });
+        await createExerciseService({ name: 'Bench Press' });
       } catch (error) {
         expect(error).toBe('Error!');
       }
@@ -103,7 +103,7 @@ describe('the exercise api', () => {
     it('should throw an error if exercise has an ID', async () => {
       expect.assertions(1);
       try {
-        await createExercise({ id: 1 });
+        await createExerciseService({ id: 1 });
       } catch (error) {
         expect(error.message).toBe('Cannot create an exercise that has an ID');
       }
