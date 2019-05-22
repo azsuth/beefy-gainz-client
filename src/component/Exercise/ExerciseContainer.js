@@ -10,7 +10,9 @@ import {
   cancelExerciseSearch,
   logNewExercise,
   editSet,
-  setChanged
+  setChanged,
+  logNewSet,
+  deleteSet
 } from 'action/Exercise';
 
 class ExerciseContainer extends Component {
@@ -23,6 +25,8 @@ class ExerciseContainer extends Component {
     this.onLogNewExercise = this.onLogNewExercise.bind(this);
     this.onEditSet = this.onEditSet.bind(this);
     this.onSetChanged = this.onSetChanged.bind(this);
+    this.onLogNewSet = this.onLogNewSet.bind(this);
+    this.onDeleteSet = this.onDeleteSet.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +59,14 @@ class ExerciseContainer extends Component {
     setChanged(setId, updatedValues, exerciseId, exercises);
   }
 
+  onLogNewSet(exerciseId) {
+    this.props.logNewSet(exerciseId);
+  }
+
+  onDeleteSet(setId, exerciseId) {
+    this.props.deleteSet(setId, exerciseId);
+  }
+
   render() {
     const {
       onExerciseFocus,
@@ -62,7 +74,9 @@ class ExerciseContainer extends Component {
       onExerciseNameChange,
       onLogNewExercise,
       onEditSet,
-      onSetChanged
+      onSetChanged,
+      onLogNewSet,
+      onDeleteSet
     } = this;
 
     const {
@@ -90,7 +104,9 @@ class ExerciseContainer extends Component {
           onLogNewExercise,
           onEditSet,
           onSetChanged,
-          editingSets
+          editingSets,
+          onLogNewSet,
+          onDeleteSet
         }}
       />
     );
@@ -115,6 +131,8 @@ export default connect(
     cancelExerciseSearch,
     logNewExercise,
     editSet,
-    setChanged
+    setChanged,
+    logNewSet,
+    deleteSet
   }
 )(ExerciseContainer);

@@ -4,13 +4,20 @@ import TextInput from 'component/common/TextInput';
 
 import 'component/Exercise/style/EditableSet.scss';
 
-const EditableSet = ({ exerciseId, set, onEditSet, onSetChanged, editing }) => {
+const EditableSet = ({
+  exerciseId,
+  set,
+  onEditSet,
+  onSetChanged,
+  editing,
+  onDeleteSet
+}) => {
   const repsInputRef = useRef(null);
   const [previousEditing, setPreviousEditing] = useState(false);
 
   useEffect(() => {
     if (editing && !previousEditing) {
-      repsInputRef.current.focus();      
+      repsInputRef.current.focus();
     }
 
     setPreviousEditing(editing);
@@ -60,11 +67,14 @@ const EditableSet = ({ exerciseId, set, onEditSet, onSetChanged, editing }) => {
       )}
 
       <div className="EditableSet__actions">
-        <button className="ui icon button" onClick={() => onEditSet(set, exerciseId, !editing)}>
+        <button
+          className="ui icon button"
+          onClick={() => onEditSet(set, exerciseId, !editing)}
+        >
           <i className={`${editing ? 'check' : 'edit'} icon`} />
         </button>
 
-        <button className="ui icon button">
+        <button className="ui icon button" onClick={() => onDeleteSet(set.id, exerciseId)}>
           <i className="trash icon" />
         </button>
       </div>

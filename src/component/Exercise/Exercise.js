@@ -8,7 +8,14 @@ import 'component/Exercise/style/Exercise.scss';
 
 class Exercise extends Component {
   renderExercises() {
-    const { exercises, onEditSet, onSetChanged, editingSets } = this.props;
+    const {
+      exercises,
+      onEditSet,
+      onSetChanged,
+      editingSets,
+      onLogNewSet,
+      onDeleteSet
+    } = this.props;
 
     return exercises.map(exercise => (
       <EditableExercise
@@ -17,6 +24,8 @@ class Exercise extends Component {
         onEditSet={onEditSet}
         onSetChanged={onSetChanged}
         editingSets={editingSets}
+        onLogNewSet={onLogNewSet}
+        onDeleteSet={onDeleteSet}
       />
     ));
   }

@@ -1,7 +1,16 @@
 jest.mock('service/api/exercise');
-import { searchExercisesService } from 'service/api/exercise';
+import {
+  searchExercisesService,
+  updateSetService,
+  createSetService
+} from 'service/api/exercise';
 
-import { exerciseNameChanged, setChanged } from 'action/Exercise';
+import {
+  exerciseNameChanged,
+  setChanged,
+  editSet,
+  logNewSet
+} from 'action/Exercise';
 
 import {
   EXERCISE_NAME_CHANGED,
@@ -9,7 +18,9 @@ import {
   LOADING_SEARCH_RESULTS,
   NEW_SEARCH_EXERCISES,
   NEW_EXERCISE_ID,
-  NEW_EXERCISES
+  NEW_EXERCISES,
+  EDIT_SET,
+  LOADING_EXERCISES
 } from 'constants/index';
 
 import Exercise from 'model/Exercise';
@@ -165,5 +176,86 @@ describe('the set changed function', () => {
 
     expect(set.reps).toBe(0);
     expect(set.lbs).toBe(300);
+  });
+});
+
+describe('the edit set function', () => {
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  afterEach(() => {
+    updateSetService.mockClear();
+  });
+
+  it('should dispatch the edit set action', () => {
+    editSet({ id: 3 }, 4, false)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const dispatchedAction = dispatch.mock.calls[0][0];
+
+    expect(dispatchedAction.type).toBe(EDIT_SET);
+    expect(dispatchedAction.payload.setId).toBe(3);
+    expect(dispatchedAction.payload.editing).toBe(false);
+  });
+
+  it('should not call the update set service when editing is true', () => {
+    editSet({ id: 3 }, 4, true)(dispatch);
+
+    expect(updateSetService).not.toHaveBeenCalled();
+  });
+
+  it('should call the update set service when editing is false', () => {
+    editSet({ id: 3 }, 4, false)(dispatch);
+
+    expect(updateSetService).toHaveBeenCalledTimes(1);
+
+    const args = updateSetService.mock.calls[0];
+
+    expect(args[0].id).toBe(3);
+    expect(args[1]).toBe(4);
+  });
+});
+
+describe('the log new set function', () => {
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = jest.fn()
+      .mockImplementationOnce(() => {})
+      .mockImplementationOnce(fn => fn());
+
+    createSetService.mockResolvedValue({ id: 5 });
+  });
+
+  afterEach(() => {
+    createSetService.mockClear();
+  });
+
+  it('should dispatch the loading exercises action', () => {
+    logNewSet(4)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const dispatchedAction = dispatch.mock.calls[0][0];
+
+    expect(dispatchedAction.type).toBe(LOADING_EXERCISES);
+    expect(dispatchedAction.payload).toBe(true);
+  });
+
+  it('should call the create set service', () => {
+    logNewSet(4)(dispatch);
+
+    expect(createSetService).toHaveBeenCalledTimes(1);
+    expect(createSetService.mock.calls[0][0]).toBe(4);
+  });
+
+  it('should call dispatch after creating a set', async () => {
+    await logNewSet(4)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
   });
 });

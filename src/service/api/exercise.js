@@ -39,6 +39,11 @@ export const deleteExercise = async exercise => {
   return 'Success';
 };
 
+export const createSetService = async exerciseId => {
+  const response = await axios.post(`/exercises/${exerciseId}/sets`, {});
+  return response.data;
+}
+
 export const updateSetService = async (set, exerciseId) => {
   if (!set.id) {
     throw Error('Cannot update a set that does not have an ID');
@@ -51,3 +56,7 @@ export const updateSetService = async (set, exerciseId) => {
 
   return response.data;
 };
+
+export const deleteSetService = async (setId, exerciseId) => {
+  return await axios.delete(`/exercises/${exerciseId}/sets/${setId}`);
+}
