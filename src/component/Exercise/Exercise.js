@@ -8,10 +8,16 @@ import 'component/Exercise/style/Exercise.scss';
 
 class Exercise extends Component {
   renderExercises() {
-    const { exercises } = this.props;
+    const { exercises, onEditSet, onSetChanged, editingSets } = this.props;
 
     return exercises.map(exercise => (
-      <EditableExercise key={exercise.id} exercise={exercise} />
+      <EditableExercise
+        key={exercise.id}
+        exercise={exercise}
+        onEditSet={onEditSet}
+        onSetChanged={onSetChanged}
+        editingSets={editingSets}
+      />
     ));
   }
 
@@ -19,7 +25,11 @@ class Exercise extends Component {
     const { searchExercises, onLogNewExercise } = this.props;
 
     return searchExercises.map(exercise => (
-      <ExerciseSearchResult key={exercise.id} exercise={exercise} onLogNewExercise={onLogNewExercise} />
+      <ExerciseSearchResult
+        key={exercise.id}
+        exercise={exercise}
+        onLogNewExercise={onLogNewExercise}
+      />
     ));
   }
 

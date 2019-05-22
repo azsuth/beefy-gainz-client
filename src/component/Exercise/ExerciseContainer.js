@@ -8,7 +8,9 @@ import {
   exerciseChangedFocus,
   exerciseNameChanged,
   cancelExerciseSearch,
-  logNewExercise
+  logNewExercise,
+  editSet,
+  setChanged
 } from 'action/Exercise';
 
 class ExerciseContainer extends Component {
@@ -19,6 +21,8 @@ class ExerciseContainer extends Component {
     this.onExerciseFocus = this.onExerciseFocus.bind(this);
     this.onExerciseNameChange = this.onExerciseNameChange.bind(this);
     this.onLogNewExercise = this.onLogNewExercise.bind(this);
+    this.onEditSet = this.onEditSet.bind(this);
+    this.onSetChanged = this.onSetChanged.bind(this);
   }
 
   componentDidMount() {
@@ -41,15 +45,34 @@ class ExerciseContainer extends Component {
     this.props.logNewExercise(exercise);
   }
 
+  onEditSet(setId, exerciseId, editing) {
+    this.props.editSet(setId, exerciseId, editing);
+  }
+
+  onSetChanged(setId, updatedValues, exerciseId) {
+    const { setChanged, exercises } = this.props;
+
+    setChanged(setId, updatedValues, exerciseId, exercises);
+  }
+
   render() {
-    const { onExerciseFocus, onExerciseBlur, onExerciseNameChange, onLogNewExercise } = this;
+    const {
+      onExerciseFocus,
+      onExerciseBlur,
+      onExerciseNameChange,
+      onLogNewExercise,
+      onEditSet,
+      onSetChanged
+    } = this;
+
     const {
       exercises,
       searching,
       exerciseName,
       cancelExerciseSearch,
       searchExercises,
-      loadingSearchResults
+      loadingSearchResults,
+      editingSets
     } = this.props;
 
     return (
@@ -64,7 +87,10 @@ class ExerciseContainer extends Component {
           cancelExerciseSearch,
           searchExercises,
           loadingSearchResults,
-          onLogNewExercise
+          onLogNewExercise,
+          onEditSet,
+          onSetChanged,
+          editingSets
         }}
       />
     );
@@ -76,7 +102,8 @@ const mapStateToProps = ({ Exercise }) => ({
   searching: Exercise.exerciseFocussed || Exercise.exerciseName.length > 0,
   exerciseName: Exercise.exerciseName,
   searchExercises: Exercise.searchExercises,
-  loadingSearchResults: Exercise.loadingSearchResults
+  loadingSearchResults: Exercise.loadingSearchResults,
+  editingSets: Exercise.editingSets
 });
 
 export default connect(
@@ -86,6 +113,8 @@ export default connect(
     exerciseChangedFocus,
     exerciseNameChanged,
     cancelExerciseSearch,
-    logNewExercise
+    logNewExercise,
+    editSet,
+    setChanged
   }
 )(ExerciseContainer);

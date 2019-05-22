@@ -6,7 +6,8 @@ import {
   CANCEL_EXERCISE_SEARCH,
   LOADING_SEARCH_RESULTS,
   CLEAR_SEARCH_RESULTS,
-  LOADING_EXERCISES
+  LOADING_EXERCISES,
+  EDIT_SET
 } from 'constants/index';
 
 const INITIAL_STATE = {
@@ -15,7 +16,8 @@ const INITIAL_STATE = {
   exerciseName: '',
   searchExercises: [],
   loadingSearchResults: false,
-  loadingExercises: false
+  loadingExercises: false,
+  editingSets: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -44,6 +46,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, searchExercises: [] };
     case LOADING_EXERCISES:
       return { ...state, loadingExercises: action.payload };
+    case EDIT_SET:
+      return {
+        ...state,
+        editingSets: {
+          ...state.editingSets,
+          [action.payload.setId]: action.payload.editing
+        }
+      };
     default:
       return state;
   }

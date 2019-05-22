@@ -1,15 +1,18 @@
 jest.mock('service/api/exercise');
 import { searchExercisesService } from 'service/api/exercise';
 
-import { exerciseNameChanged } from 'action/Exercise';
+import { exerciseNameChanged, setChanged } from 'action/Exercise';
 
 import {
   EXERCISE_NAME_CHANGED,
   CLEAR_SEARCH_RESULTS,
   LOADING_SEARCH_RESULTS,
   NEW_SEARCH_EXERCISES,
-  NEW_EXERCISE_ID
+  NEW_EXERCISE_ID,
+  NEW_EXERCISES
 } from 'constants/index';
+
+import Exercise from 'model/Exercise';
 
 describe('the exercise name changed function', () => {
   let dispatch;
@@ -112,5 +115,55 @@ describe('the exercise name changed function', () => {
     expect(dispatchedAction.payload.length).toBe(2);
     expect(dispatchedAction.payload[1].id).toBe(NEW_EXERCISE_ID);
     expect(dispatchedAction.payload[1].name).toBe('asd');
+  });
+});
+
+describe('the set changed function', () => {
+  const exercises = [
+    new Exercise({ id: 1, sets: [{ id: 2, reps: 12, lbs: 120 }] }),
+    new Exercise({
+      id: 3,
+      sets: [{ id: 4, reps: 12, lbs: 135 }, { id: 5, reps: 0, lbs: 0 }]
+    }),
+    new Exercise({ id: 6, sets: [{ id: 7, reps: 5, lbs: 155 }] })
+  ];
+
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+  });
+
+  afterEach(() => {
+    exercises[1].sets[1].reps = 0;
+    exercises[1].sets[1].lbs = 0;
+  });
+
+  it('should dispatch the new exercises action', () => {
+    setChanged(5, { reps: 6 }, 3, exercises)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const dispatchedAction = dispatch.mock.calls[0][0];
+
+    expect(dispatchedAction.type).toBe(NEW_EXERCISES);
+  });
+
+  it('should set the reps but not the lbs', () => {
+    setChanged(5, { reps: 6 }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.reps).toBe(6);
+    expect(set.lbs).toBe(0);
+  });
+
+  it('should set the lbs but not the reps', () => {
+    setChanged(5, { lbs: 300 }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.reps).toBe(0);
+    expect(set.lbs).toBe(300);
   });
 });

@@ -1,8 +1,11 @@
+import find from 'lodash/find';
+
 import {
   getCurrentExercisesService,
   searchExercisesService,
   createExerciseService,
-  updateExerciseService
+  updateExerciseService,
+  updateSetService
 } from 'service/api/exercise';
 import Exercise from 'model/Exercise';
 
@@ -15,7 +18,8 @@ import {
   CANCEL_EXERCISE_SEARCH,
   LOADING_SEARCH_RESULTS,
   CLEAR_SEARCH_RESULTS,
-  LOADING_EXERCISES
+  LOADING_EXERCISES,
+  EDIT_SET
 } from 'constants/index';
 
 export const getExercises = () => dispatch => {
@@ -116,3 +120,34 @@ export const updateExercise = exercise => dispatch => {
 };
 
 export const logNewSetForExercise = exercise => dispatch => {};
+
+export const editSet = (set, exerciseId, editing) => dispatch => {
+  if (!editing) {
+    updateSetService(set, exerciseId);
+  }
+
+  dispatch({
+    type: EDIT_SET,
+    payload: { setId: set.id, editing }
+  });
+};
+
+export const setChanged = (
+  setId,
+  updatedValues,
+  exerciseId,
+  exercises
+) => dispatch => {
+  const { reps, lbs } = updatedValues;
+
+  const exercise = find(exercises, { id: exerciseId });
+  const set = find(exercise.sets, { id: setId });
+
+  set.reps = reps || set.reps;
+  set.lbs = lbs || set.lbs;
+
+  dispatch({
+    type: NEW_EXERCISES,
+    payload: [...exercises]
+  });
+};

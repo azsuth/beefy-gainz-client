@@ -4,13 +4,20 @@ import EditableSet from 'component/Exercise/EditableSet';
 
 import 'component/Exercise/style/EditableExercise.scss';
 
-const EditableExercise = ({ exercise }) => (
+const EditableExercise = ({ exercise, onEditSet, onSetChanged, editingSets }) => (
   <div className="EditableExercise">
     <div className="EditableExercise__header">{exercise.name}</div>
 
     <div className="EditableExercise__sets">
       {exercise.sets.map(set => (
-        <EditableSet key={set.id} set={set} />
+        <EditableSet
+          key={set.id}
+          exerciseId={exercise.id}
+          set={set}
+          onEditSet={onEditSet}
+          onSetChanged={onSetChanged}
+          editing={editingSets[set.id] || false}
+        />
       ))}
     </div>
 

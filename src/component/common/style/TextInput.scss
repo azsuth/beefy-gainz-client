@@ -1,0 +1,12 @@
+@import 'style/_color.scss';
+
+.TextInput {
+  border-bottom: 1px solid $color-primary;
+
+  &__input {
+    width: 100%;
+    border: 0;
+    outline: none;
+    text-align: right;
+  }
+}
