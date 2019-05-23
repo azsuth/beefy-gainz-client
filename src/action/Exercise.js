@@ -111,8 +111,23 @@ export const createNewExercise = exercise => dispatch => {
   });
   dispatch(cancelExerciseSearch());
 
-  createExerciseService({ name: exercise.name }).then(() => {
-    dispatch(getExercises());
+  createExerciseService({ name: exercise.name }).then(exercise => {
+    dispatch(
+      getExercises(() => {
+
+        /**
+         * 
+         * WARNING!!
+         * 
+         * The logic below works on the assumption that a new exercise
+         * is always created with a default, 0 reps/0 lbs set. If that
+         * ever changes then this logic will be broken.
+         * 
+         */
+        
+         dispatch(editSet(exercise.sets[0], exercise.id, true));
+      })
+    );
   });
 };
 
