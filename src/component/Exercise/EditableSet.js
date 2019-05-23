@@ -26,27 +26,30 @@ const EditableSet = ({
   return (
     /*eslint-disable no-script-url*/
     <form className="EditableSet" action="javascript:void(0);">
-      {editing ? (
-        <div className="EditableSet__input">
-          <span className="EditableSet__input--first">
-            <TextInput
-              value={set.reps}
-              onFocus={event => event.target.select()}
-              onChange={event =>
-                onSetChanged(set.id, { reps: event.target.value }, exerciseId)
-              }
-              repsInputRef={repsInputRef}
-              type="number"
-            />
-          </span>
-          reps
-        </div>
-      ) : (
-        <div className="EditableSet__input">
-          <span className="EditableSet__input--first">{set.reps}</span>
-          reps
-        </div>
-      )}
+      <div className="EditableSet__input">
+        {editing ? (
+          <>
+            <span className="EditableSet__input--first">
+              <TextInput
+                value={set.reps}
+                onFocus={event => event.target.select()}
+                onChange={event =>
+                  onSetChanged(set.id, { reps: event.target.value }, exerciseId)
+                }
+                inputRef={repsInputRef}
+                type="number"
+                align="right"
+              />
+            </span>
+            reps
+          </>
+        ) : (
+          <>
+            <span className="EditableSet__input--first">{set.reps}</span>
+            reps
+          </>
+        )}
+      </div>
 
       {editing ? (
         <div className="EditableSet__input">
@@ -58,6 +61,7 @@ const EditableSet = ({
                 onSetChanged(set.id, { lbs: event.target.value }, exerciseId)
               }
               type="number"
+              align="right"
             />
           </span>
           lbs

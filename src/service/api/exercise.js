@@ -30,13 +30,8 @@ export const updateExerciseService = async exercise => {
   return response.data;
 };
 
-export const deleteExercise = async exercise => {
-  if (!exercise.id) {
-    throw Error('Cannot delete an exercise that does not have an ID');
-  }
-
-  await axios.delete(`/exercises/${exercise.id}`);
-  return 'Success';
+export const deleteExerciseService = async exerciseId => {
+  return await axios.delete(`/exercises/${exerciseId}`);
 };
 
 export const createSetService = async exerciseId => {

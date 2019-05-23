@@ -6,19 +6,21 @@ const TextInput = ({
   value,
   onChange,
   onFocus,
-  repsInputRef,
-  type = 'text'
+  inputRef,
+  type = 'text',
+  theme = 'light',
+  align
 }) => (
-  <div className="TextInput">
+  <span className={`TextInput TextInput--${theme}`}>
     <input
-      className="TextInput__input"
+      className={`TextInput__input TextInput__input--align-${align}`}
       type={type}
       value={value}
       onFocus={onFocus}
       onChange={onChange}
-      ref={repsInputRef}
+      ref={inputRef}
     />
-  </div>
+  </span>
 );
 
 export default TextInput;

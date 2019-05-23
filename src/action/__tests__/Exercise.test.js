@@ -2,14 +2,18 @@ jest.mock('service/api/exercise');
 import {
   searchExercisesService,
   updateSetService,
-  createSetService
+  createSetService,
+  deleteSetService,
+  deleteExerciseService
 } from 'service/api/exercise';
 
 import {
   exerciseNameChanged,
   setChanged,
   editSet,
-  logNewSet
+  logNewSet,
+  deleteSet,
+  deleteExercise
 } from 'action/Exercise';
 
 import {
@@ -224,7 +228,8 @@ describe('the log new set function', () => {
   let dispatch;
 
   beforeEach(() => {
-    dispatch = jest.fn()
+    dispatch = jest
+      .fn()
       .mockImplementationOnce(() => {})
       .mockImplementationOnce(fn => fn());
 
@@ -255,6 +260,89 @@ describe('the log new set function', () => {
 
   it('should call dispatch after creating a set', async () => {
     await logNewSet(4)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('the delete set function', () => {
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+
+    deleteSetService.mockResolvedValue();
+  });
+
+  afterEach(() => {
+    deleteSetService.mockClear();
+  });
+
+  it('should dispatch the loading exercises action', () => {
+    deleteSet(1, 1)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const dispatchedAction = dispatch.mock.calls[0][0];
+
+    expect(dispatchedAction.type).toBe(LOADING_EXERCISES);
+    expect(dispatchedAction.payload).toBe(true);
+  });
+
+  it('should call the delete set service', () => {
+    deleteSet(1, 2)(dispatch);
+
+    expect(deleteSetService).toHaveBeenCalledTimes(1);
+
+    const args = deleteSetService.mock.calls[0];
+
+    expect(args[0]).toBe(1);
+    expect(args[1]).toBe(2);
+  });
+
+  it('should dispatch after the set is deleted', async () => {
+    await deleteSet(1, 2)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('the delete Exercise function', () => {
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+
+    deleteExerciseService.mockResolvedValue();
+  });
+
+  afterEach(() => {
+    deleteExerciseService.mockClear();
+  });
+
+  it('should dispatch the loading exercises action', () => {
+    deleteExercise(1)(dispatch);
+
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const dispatchedAction = dispatch.mock.calls[0][0];
+
+    expect(dispatchedAction.type).toBe(LOADING_EXERCISES);
+    expect(dispatchedAction.payload).toBe(true);
+  });
+
+  it('should call the delete Exercise service', () => {
+    deleteExercise(9)(dispatch);
+
+    expect(deleteExerciseService).toHaveBeenCalledTimes(1);
+
+    const exerciseId = deleteExerciseService.mock.calls[0][0];
+
+    expect(exerciseId).toBe(9);
+  });
+
+  it('should dispatch after the Exercise is deleted', async () => {
+    await deleteExercise(1)(dispatch);
 
     expect(dispatch).toHaveBeenCalledTimes(2);
   });

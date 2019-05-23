@@ -5,7 +5,7 @@ import {
   getCurrentExercisesService,
   createExerciseService,
   updateExerciseService,
-  deleteExercise
+  deleteExerciseService
 } from '../exercise';
 
 describe('the exercise api', () => {
@@ -164,7 +164,7 @@ describe('the exercise api', () => {
   });
 
   it('should have a function to delete an exercise', () => {
-    expect(deleteExercise).toBeDefined();
+    expect(deleteExerciseService).toBeDefined();
   });
 
   describe('deleteExercise function', () => {
@@ -173,13 +173,11 @@ describe('the exercise api', () => {
     });
 
     it('should return a promise', () => {
-      expect(deleteExercise().then).toBeDefined();
+      expect(deleteExerciseService().then).toBeDefined();
     });
 
     it('should make a delete call with axios', () => {
-      const exercise = { id: 1, name: 'Bench Press' };
-
-      deleteExercise(exercise);
+      deleteExerciseService(1);
 
       expect(axios.delete).toHaveBeenCalledTimes(1);
       expect(axios.delete).toHaveBeenCalledWith('/exercises/1');
@@ -188,8 +186,10 @@ describe('the exercise api', () => {
     it('should return success', async () => {
       axios.delete.mockResolvedValue();
 
-      const response = await deleteExercise({ id: 1, name: 'Bench Press' });
-      expect(response).toBe('Success');
+
+      await deleteExerciseService(1).then(() => {
+        expect(true).toBe(true);
+      });
     });
 
     it('should return an error', async () => {
@@ -197,20 +197,9 @@ describe('the exercise api', () => {
 
       expect.assertions(1);
       try {
-        await deleteExercise({ id: 1, name: 'Bench Press' });
+        await deleteExerciseService(1);
       } catch (error) {
         expect(error).toBe('Error!');
-      }
-    });
-
-    it('should throw an error if exercise does not have ID', async () => {
-      expect.assertions(1);
-      try {
-        await deleteExercise({ name: 'Bench Press' });
-      } catch (error) {
-        expect(error.message).toBe(
-          'Cannot delete an exercise that does not have an ID'
-        );
       }
     });
   });

@@ -27,3 +27,4 @@ export const CANCEL_EXERCISE_SEARCH = 'cancel_exercise_search';
 export const LOADING_SEARCH_RESULTS = 'loading_search_results';
 export const CLEAR_SEARCH_RESULTS = 'clear_search_results';
 export const EDIT_SET = 'edit_set';
+export const EDIT_EXERCISE = 'edit_exercise';

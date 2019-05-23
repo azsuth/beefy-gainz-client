@@ -2,39 +2,47 @@ import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 class Exercise {
   constructor(exercise) {
-    this.exercise = exercise;
+    this._exercise = exercise;
   }
 
   get id() {
-    return this.exercise.id;
+    return this._exercise.id;
   }
 
   get name() {
-    return this.exercise.name;
+    return this._exercise.name;
+  }
+
+  set name(newName) {
+    this._exercise.name = newName;
   }
 
   get sets() {
-    return this.exercise.sets;
+    return this._exercise.sets;
+  }
+
+  get obj() {
+    return this._exercise;
   }
 
   lastLogged() {
-    if (this.exercise.sets && this.exercise.sets.length > 0) {
+    if (this._exercise.sets && this._exercise.sets.length > 0) {
       const created = `${
-        this.exercise.sets[this.exercise.sets.length - 1].created
+        this._exercise.sets[this._exercise.sets.length - 1].created
       }Z`;
       return `${distanceInWordsToNow(created)} ago`;
     }
   }
 
   lastSet() {
-    if (this.exercise.sets && this.exercise.sets.length > 0) {
-      const set = this.exercise.sets[this.exercise.sets.length - 1];
+    if (this._exercise.sets && this._exercise.sets.length > 0) {
+      const set = this._exercise.sets[this._exercise.sets.length - 1];
       return `${set.reps}@${set.lbs}`;
     }
   }
 
   searchResultDescription() {
-    if (this.exercise.sets && this.exercise.sets.length > 0) {
+    if (this._exercise.sets && this._exercise.sets.length > 0) {
       return `${this.lastLogged()}, ${this.lastSet()}`;
     }
   }

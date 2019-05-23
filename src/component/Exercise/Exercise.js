@@ -14,7 +14,11 @@ class Exercise extends Component {
       onSetChanged,
       editingSets,
       onLogNewSet,
-      onDeleteSet
+      onDeleteSet,
+      onEditExercise,
+      editingExercises,
+      onExerciseChanged,
+      onDeleteExercise
     } = this.props;
 
     return exercises.map(exercise => (
@@ -26,6 +30,10 @@ class Exercise extends Component {
         editingSets={editingSets}
         onLogNewSet={onLogNewSet}
         onDeleteSet={onDeleteSet}
+        onEditExercise={onEditExercise}
+        editing={editingExercises[exercise.id] || false}
+        onExerciseChanged={onExerciseChanged}
+        onDeleteExercise={onDeleteExercise}
       />
     ));
   }

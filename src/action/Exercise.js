@@ -7,7 +7,8 @@ import {
   updateExerciseService,
   updateSetService,
   createSetService,
-  deleteSetService
+  deleteSetService,
+  deleteExerciseService
 } from 'service/api/exercise';
 import Exercise from 'model/Exercise';
 
@@ -21,7 +22,8 @@ import {
   LOADING_SEARCH_RESULTS,
   CLEAR_SEARCH_RESULTS,
   LOADING_EXERCISES,
-  EDIT_SET
+  EDIT_SET,
+  EDIT_EXERCISE
 } from 'constants/index';
 
 export const getExercises = (then = () => {}) => dispatch => {
@@ -30,16 +32,18 @@ export const getExercises = (then = () => {}) => dispatch => {
     payload: true
   });
 
-  getCurrentExercisesService().then(exercises => {
-    dispatch({
-      type: LOADING_EXERCISES,
-      payload: false
-    });
-    dispatch({
-      type: NEW_EXERCISES,
-      payload: exercises
-    });
-  }).then(then);
+  getCurrentExercisesService()
+    .then(exercises => {
+      dispatch({
+        type: LOADING_EXERCISES,
+        payload: false
+      });
+      dispatch({
+        type: NEW_EXERCISES,
+        payload: exercises
+      });
+    })
+    .then(then);
 };
 
 export const exerciseChangedFocus = focussed => ({
@@ -118,7 +122,7 @@ export const updateExercise = exercise => dispatch => {
     payload: true
   });
 
-  updateExerciseService(exercise.exercise).then(() => {
+  updateExerciseService(exercise.obj).then(() => {
     dispatch(getExercises());
   });
 };
@@ -130,9 +134,11 @@ export const logNewSet = exerciseId => dispatch => {
   });
 
   createSetService(exerciseId).then(set => {
-    dispatch(getExercises(() => {
-      dispatch(editSet(set, exerciseId, true));
-    }));
+    dispatch(
+      getExercises(() => {
+        dispatch(editSet(set, exerciseId, true));
+      })
+    );
   });
 };
 
@@ -144,6 +150,17 @@ export const editSet = (set, exerciseId, editing) => dispatch => {
   dispatch({
     type: EDIT_SET,
     payload: { setId: set.id, editing }
+  });
+};
+
+export const editExercise = (exercise, editing) => dispatch => {
+  if (!editing) {
+    updateExerciseService(exercise.obj);
+  }
+
+  dispatch({
+    type: EDIT_EXERCISE,
+    payload: { exerciseId: exercise.id, editing }
   });
 };
 
@@ -167,6 +184,23 @@ export const setChanged = (
   });
 };
 
+export const exerciseChanged = (
+  exerciseId,
+  updatedValues,
+  exercises
+) => dispatch => {
+  const { name } = updatedValues;
+
+  const exercise = find(exercises, { id: exerciseId });
+
+  exercise.name = name || exercise.name;
+
+  dispatch({
+    type: NEW_EXERCISES,
+    payload: [...exercises]
+  });
+};
+
 export const deleteSet = (setId, exerciseId) => dispatch => {
   dispatch({
     type: LOADING_EXERCISES,
@@ -176,4 +210,15 @@ export const deleteSet = (setId, exerciseId) => dispatch => {
   deleteSetService(setId, exerciseId).then(() => {
     dispatch(getExercises());
   });
-}
+};
+
+export const deleteExercise = exerciseId => dispatch => {
+  dispatch({
+    type: LOADING_EXERCISES,
+    payload: true
+  });
+
+  deleteExerciseService(exerciseId).then(() => {
+    dispatch(getExercises());
+  });
+};
