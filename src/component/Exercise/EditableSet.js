@@ -24,7 +24,7 @@ const EditableSet = ({
   }, [editing, previousEditing]);
 
   return (
-    <div className="EditableSet">
+    <form className="EditableSet" action="javascript:void(0);">
       {editing ? (
         <div className="EditableSet__input">
           <span className="EditableSet__input--first">
@@ -35,6 +35,7 @@ const EditableSet = ({
                 onSetChanged(set.id, { reps: event.target.value }, exerciseId)
               }
               repsInputRef={repsInputRef}
+              type="number"
             />
           </span>
           reps
@@ -55,6 +56,7 @@ const EditableSet = ({
               onChange={event =>
                 onSetChanged(set.id, { lbs: event.target.value }, exerciseId)
               }
+              type="number"
             />
           </span>
           lbs
@@ -74,11 +76,14 @@ const EditableSet = ({
           <i className={`${editing ? 'check' : 'edit'} icon`} />
         </button>
 
-        <button className="ui icon button" onClick={() => onDeleteSet(set.id, exerciseId)}>
+        <button
+          className="ui icon button"
+          onClick={() => onDeleteSet(set.id, exerciseId)}
+        >
           <i className="trash icon" />
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
