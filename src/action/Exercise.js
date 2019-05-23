@@ -124,7 +124,7 @@ export const createNewExercise = exercise => dispatch => {
          * ever changes then this logic will be broken.
          * 
          */
-        
+
          dispatch(editSet(exercise.sets[0], exercise.id, true));
       })
     );
@@ -218,8 +218,6 @@ export const exerciseChanged = (
   updatedValues,
   exercises
 ) => dispatch => {
-  const { name } = updatedValues;
-
   const exercise = find(exercises, { id: exerciseId });
 
   exercise.name = 'name' in updatedValues ? updatedValues.name : exercise.name;
