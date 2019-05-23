@@ -63,10 +63,12 @@ class ExerciseContainer extends Component {
     this.props.editExercise(exercise, editing);
   }
 
-  onSetChanged(setId, updatedValues, exerciseId) {
-    const { setChanged, exercises } = this.props;
+  onSetChanged(setId, updatedValues, exerciseId, event) {
+    if (event.target.validity.valid) {
+      const { setChanged, exercises } = this.props;
 
-    setChanged(setId, updatedValues, exerciseId, exercises);
+      setChanged(setId, updatedValues, exerciseId, exercises);
+    }
   }
 
   onExerciseChanged(exerciseId, updatedValues) {

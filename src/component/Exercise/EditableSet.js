@@ -34,10 +34,11 @@ const EditableSet = ({
                 value={set.reps}
                 onFocus={event => event.target.select()}
                 onChange={event =>
-                  onSetChanged(set.id, { reps: event.target.value }, exerciseId)
+                  onSetChanged(set.id, { reps: event.target.value }, exerciseId, event)
                 }
                 inputRef={repsInputRef}
-                type="number"
+                type="tel"
+                pattern="\d{0,3}"
                 align="right"
               />
             </span>
@@ -58,9 +59,10 @@ const EditableSet = ({
               value={set.lbs}
               onFocus={event => event.target.select()}
               onChange={event =>
-                onSetChanged(set.id, { lbs: event.target.value }, exerciseId)
+                onSetChanged(set.id, { lbs: event.target.value }, exerciseId, event)
               }
-              type="number"
+              type="tel"
+              pattern="\d{0,3}"
               align="right"
             />
           </span>

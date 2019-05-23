@@ -181,6 +181,38 @@ describe('the set changed function', () => {
     expect(set.reps).toBe(0);
     expect(set.lbs).toBe(300);
   });
+
+  it('should default reps when it is empty', () => {
+    setChanged(5, { reps: '' }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.reps).toBe(0);
+  });
+
+  it('should fix reps when it starts with zero', () => {
+    setChanged(5, { reps: '05' }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.reps).toBe(5);
+  });
+
+  it('should default lbs when it is empty', () => {
+    setChanged(5, { lbs: '' }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.lbs).toBe(0);
+  });
+
+  it('should fix lbs when it starts with zero', () => {
+    setChanged(5, { lbs: '01' }, 3, exercises)(dispatch);
+
+    const set = dispatch.mock.calls[0][0].payload[1].sets[1];
+
+    expect(set.lbs).toBe(1);
+  });
 });
 
 describe('the edit set function', () => {

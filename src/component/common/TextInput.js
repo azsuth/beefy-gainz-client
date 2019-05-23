@@ -9,7 +9,8 @@ const TextInput = ({
   inputRef,
   type = 'text',
   theme = 'light',
-  align
+  align,
+  pattern
 }) => (
   <span className={`TextInput TextInput--${theme}`}>
     <input
@@ -19,6 +20,7 @@ const TextInput = ({
       onFocus={onFocus}
       onChange={onChange}
       ref={inputRef}
+      pattern={pattern}
     />
   </span>
 );

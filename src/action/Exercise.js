@@ -155,6 +155,10 @@ export const editSet = (set, exerciseId, editing) => dispatch => {
 
 export const editExercise = (exercise, editing) => dispatch => {
   if (!editing) {
+    if (!exercise.name) {
+      return;
+    }
+
     updateExerciseService(exercise.obj);
   }
 
@@ -170,13 +174,23 @@ export const setChanged = (
   exerciseId,
   exercises
 ) => dispatch => {
-  const { reps, lbs } = updatedValues;
-
   const exercise = find(exercises, { id: exerciseId });
   const set = find(exercise.sets, { id: setId });
 
-  set.reps = reps || set.reps;
-  set.lbs = lbs || set.lbs;
+  set.reps = 'reps' in updatedValues ? updatedValues.reps : set.reps;
+  set.lbs = 'lbs' in updatedValues ? updatedValues.lbs : set.lbs;
+
+  if (!set.reps) {
+    set.reps = 0;
+  } else if (set.reps.length > 1 && set.reps.startsWith('0')) {
+    set.reps = parseInt(set.reps.slice(1));
+  }
+
+  if (!set.lbs) {
+    set.lbs = 0;
+  } else if (set.lbs.length > 1 && set.lbs.startsWith('0')) {
+    set.lbs = parseInt(set.lbs.slice(1));
+  }
 
   dispatch({
     type: NEW_EXERCISES,
@@ -193,7 +207,7 @@ export const exerciseChanged = (
 
   const exercise = find(exercises, { id: exerciseId });
 
-  exercise.name = name || exercise.name;
+  exercise.name = 'name' in updatedValues ? updatedValues.name : exercise.name;
 
   dispatch({
     type: NEW_EXERCISES,
