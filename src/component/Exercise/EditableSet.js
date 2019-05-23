@@ -24,6 +24,7 @@ const EditableSet = ({
   }, [editing, previousEditing]);
 
   return (
+    /*eslint-disable no-script-url*/
     <form className="EditableSet" action="javascript:void(0);">
       {editing ? (
         <div className="EditableSet__input">
